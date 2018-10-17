@@ -4,11 +4,15 @@ $(".myinput").on("keydown", function(event){
     }
 });
 
+$("#new-list-input").on("keydown", function(event){
+    if(event.which === 13){
+        createNewList();
+    }
+});
+
 $(".container").sortable({
     handle: ".handle"
 });
-
-$('.row').addClass("graytext");
 
 function addItem(){
     let myname = $(".myinput").val();
@@ -25,10 +29,18 @@ function addItem(){
 }
 
 function clearList() {
-    $(".row").remove();
+    $(".row").animate({
+        opacity: 0,
+        left: "+=50"
+        }, 1000, function(){
+        $(this).remove();
+    });
 }
 
-let nextID = 0;
+function createNewList(){
+    let mylist = $("#new-list-input").val();
+    $(".listNames").append("<div class='List'><span contenteditable='true'>"+ mylist +"</span><span class='icons'><i class=\"far fa-times-circle\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
+}
 class Data {
     static saveList(listID, list){
         let listString = JSON.stringify(list);
@@ -58,17 +70,11 @@ let lists = {
 function displayCurrentList() {
     document.getElementById('current-list-name').innerHTML = lists.currentList.name;
 }
-
-function createNewList() {
-    let newList = {
-        id: nextID++,
-        name: document.getElementById('new-list-input').value,
-        tasks: []
-    };
     lists [newList.id] = newList;
     lists.currentList = newList;
 
-    Data.saveList(newList.id, newList.name);
+    Data.saveList(newList.id, newList);
+    lists.currentList = Data.getList(newList.id);
 
     displayCurrentList();
-}
+    console.log(newList.id);

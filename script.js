@@ -1,5 +1,33 @@
-//create array to hold lists
-//create a list object that holds the name of the list, the tasks, and properties of the tasks
+$(".myinput").on("keydown", function(event){
+    if(event.which === 13){
+        addItem();
+    }
+});
+
+$(".container").sortable({
+    handle: ".handle"
+});
+
+$('.row').addClass("graytext");
+
+function addItem(){
+    let myname = $(".myinput").val();
+    $(".container").append("<div class='row'><span contenteditable='true'>"+ myname +"</span><span class='icons'><i class=\"trashcan fas fa-trash\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
+    $(".myinput").val("");
+    $(".icons").click(function(){
+        $(this).parent().animate({
+            opacity: 0,
+            left: "+=50"
+        }, 1000, function(){
+            $(this).remove();
+        });
+    });
+}
+
+function clearList() {
+    $(".row").remove();
+}
+
 let nextID = 0;
 class Data {
     static saveList(listID, list){
@@ -28,20 +56,10 @@ let lists = {
 };
 
 function displayCurrentList() {
-    document.getElementById('current-list-name').innerText = lists.currentList.name;
-
-    let tasksString = '';
-
-    for (let i = 0; i < lists.currentList.tasks.length; i++){
-        const task = lists.currentList.tasks[i];
-
-        tasksString += `<div><li>${task.text}</li><input type="checkbox" ${task.complete ? 'checked' : ''}></div>`;
-    }
-
-    document.getElementById('list-tasks').innerHTML = tasksString;
+    document.getElementById('current-list-name').innerHTML = lists.currentList.name;
 }
 
-function createNewList(){
+function createNewList() {
     let newList = {
         id: nextID++,
         name: document.getElementById('new-list-input').value,
@@ -50,7 +68,7 @@ function createNewList(){
     lists [newList.id] = newList;
     lists.currentList = newList;
 
+    Data.saveList(newList.id, newList.name);
+
     displayCurrentList();
 }
-
-displayCurrentList();

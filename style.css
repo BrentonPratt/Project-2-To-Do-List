@@ -51,6 +51,14 @@ body,html{
     margin-top: 10px;
 }
 
+.List{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #FFFFFF;
+    padding: 10px;
+    margin: 10px 10px 10px 0;
+}
+
 .trashcan{
     padding-right: 10px;
     color: #7C0CFF;

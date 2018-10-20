@@ -15,11 +15,16 @@ $(".container").sortable({
 });
 
 function addItem(){
+    let cntl = document.getElementById('add1');
+    let list = cntl.getAttribute('data-list');
+    let groupid = 'group' + list.substring(4,5);
+
     let myname = $(".myinput").val();
-    $(".container").append("<div class='row'><span contenteditable='true'>"+ myname +"</span><span class='icons'><i class=\"trashcan fas fa-trash\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
+    $("#"+ groupid).append("<div class='row'><span contenteditable='true'>"+ myname +"</span><span><input type='checkbox'><i " +
+        "class=\"trashcan fas fa-trash icons\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
     $(".myinput").val("");
     $(".icons").click(function(){
-        $(this).parent().animate({
+        $(this).parent().parent().animate({
             opacity: 0,
             left: "+=50"
         }, 1000, function(){
@@ -37,9 +42,25 @@ function clearList() {
     });
 }
 
+$(".listNames").sortable({
+    handle: ".handle"
+});
+
 function createNewList(){
+    let num = $("#lists").children().length;
     let mylist = $("#new-list-input").val();
-    $(".listNames").append("<div class='List'><span contenteditable='true'>"+ mylist +"</span><span class='icons'><i class=\"far fa-times-circle\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
+    $("#lists").append("<div class='List' id='list" + num + "' onclick='setActive(this.id)'><span>"+ mylist +"</span><span class='icons'><i class=\"far fa-times-circle\"></i><i " +
+        "class=\"handle fas fa-arrows-alt\"></i></span></div>");
+    $("#new-list-input").val("");
+    $(".icons").click(function(){
+        $(this).parent().animate({
+            opacity: 0,
+        }, 1000, function(){
+            $(this).remove();
+        });
+    });
+    $("#items").append("<div class='group' id='group" + num + "'></div>");
+
 }
 class Data {
     static saveList(listID, list){
@@ -55,26 +76,25 @@ class Data {
     };
 }
 
-let lists = {
-    currentList: {
-        name: 'Honey Do',
-        tasks: [
-            {
-                text: 'clean bathroom',
-                complete: false,
-            }
-        ]
-    }
-};
+function setActive(list){
+    let cntl = document.getElementById('add1');
+    let groupid = 'group' + list.substring(4,5);
+    cntl.setAttribute('data-list', list);
+    $('.group').css('display', 'none');
+    $('#'+ groupid).css('display', 'inline');
+    $('.List').css('background-color', '#0015FF');
+    $('#'+ list).css('background-color', '#0CA0FF');
+}
 
-function displayCurrentList() {
+/*function displayCurrentList() {
     document.getElementById('current-list-name').innerHTML = lists.currentList.name;
 }
-    lists [newList.id] = newList;
-    lists.currentList = newList;
-
     Data.saveList(newList.id, newList);
-    lists.currentList = Data.getList(newList.id);
+
+    function changeList(){
+        lists.currentList = Data.getList(newList.id);
+        console.log(lists.currentList.id)
+    }
 
     displayCurrentList();
-    console.log(newList.id);
+    console.log(newList.id);*/

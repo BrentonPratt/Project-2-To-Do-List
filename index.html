@@ -18,15 +18,21 @@
         <div class="sidenav">
             <h2 id="current-list-name"></h2>
             <div class="listNames">
-                <label>New List Name</label>
+                <label>New List</label>
                 <input id="new-list-input" type="text" placeholder="Create a new list!">
                 <button onclick="createNewList()">Create A New List</button>
+                <div id="lists">
+
+                </div>
             </div>
         </div>
         <div class="container">
             <input class="myinput" type="text" placeholder="What needs to be done?">
-            <button onclick="addItem()">Add Item</button>
+            <button id='add1' data-list="blank" onclick="addItem()">Add Item</button>
             <button onclick="clearList()">Clear List</button>
+            <div id="items">
+
+            </div>
         </div>
     </div>
 </body>

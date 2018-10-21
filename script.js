@@ -1,3 +1,5 @@
+let nextID = 0
+
 $(".myinput").on("keydown", function(event){
     if(event.which === 13){
         addItem();
@@ -10,7 +12,7 @@ $("#new-list-input").on("keydown", function(event){
     }
 });
 
-$(".container").sortable({
+$(".itemContainer").sortable({
     handle: ".handle"
 });
 
@@ -42,21 +44,22 @@ function clearList() {
     });
 }
 
-$(".listNames").sortable({
+$("#lists").sortable({
     handle: ".handle"
 });
 
 function createNewList(){
-    let num = $("#lists").children().length;
+    nextID++;
+    let num = nextID;
     let mylist = $("#new-list-input").val();
-    $("#lists").append("<div class='List' id='list" + num + "' onclick='setActive(this.id)'><span>"+ mylist +"</span><span class='icons'><i class=\"far fa-times-circle\"></i><i " +
+    $("#lists").append("<div class='List' id='list" + num + "' onclick='setActive(this.id)'><span>"+ mylist +"</span><span><i class=\"far fa-times-circle list-delete\"></i><i " +
         "class=\"handle fas fa-arrows-alt\"></i></span></div>");
     $("#new-list-input").val("");
-    $(".icons").click(function(){
+    $(".list-delete").click(function(){
         $(this).parent().animate({
             opacity: 0,
         }, 1000, function(){
-            $(this).remove();
+            $(this).parent().remove();
         });
     });
     $("#items").append("<div class='group' id='group" + num + "'></div>");

@@ -6,9 +6,9 @@
     <title>Project 2: To Do List</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
-    <script src="script.js" type="text/javascript" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="script.js" type="text/javascript" defer></script>
 </head>
 <body>
     <div class="topnav">
@@ -30,6 +30,7 @@
             <input class="myinput" type="text" placeholder="What needs to be done?">
             <button id='add1' data-list="blank" onclick="addItem()">Add Item</button>
             <button onclick="clearList()">Clear List</button>
+            <button class="clear-completed-items" id="deleteComplete">Clear completed items</button>
             <div id="items" class="itemContainer">
 
             </div>

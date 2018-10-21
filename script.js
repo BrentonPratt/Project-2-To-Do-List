@@ -1,4 +1,4 @@
-let nextID = 0
+let nextID = 0;
 
 $(".myinput").on("keydown", function(event){
     if(event.which === 13){
@@ -12,18 +12,25 @@ $("#new-list-input").on("keydown", function(event){
     }
 });
 
-$(".itemContainer").sortable({
+$("#items").sortable({
     handle: ".handle"
 });
 
-function addItem(){
+$("#deleteComplete").on("click",function(){
+    $(".complete label.checkbox").each(function(){
+        if ($(this).is(':checked')) {
+            $(this).remove();
+        }
+    });
+});
+
+function addItem(groupid){
     let cntl = document.getElementById('add1');
     let list = cntl.getAttribute('data-list');
-    let groupid = 'group' + list.substring(4,5);
+    groupid = 'group' + list.substring(4,5);
 
     let myname = $(".myinput").val();
-    $("#"+ groupid).append("<div class='row'><span contenteditable='true'>"+ myname +"</span><span><input type='checkbox'><i " +
-        "class=\"trashcan fas fa-trash icons\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
+    $("#"+ groupid).append("<div class='row'><span contenteditable='true'>"+ myname +"</span><span><label class=\"checkbox\"><input class=\"complete\" type='checkbox'><i class=\"trashcan fas fa-trash icons\"></i><i class=\"handle fas fa-arrows-alt\"></i></span></div>");
     $(".myinput").val("");
     $(".icons").click(function(){
         $(this).parent().parent().animate({
@@ -65,19 +72,6 @@ function createNewList(){
     $("#items").append("<div class='group' id='group" + num + "'></div>");
 
 }
-class Data {
-    static saveList(listID, list){
-        let listString = JSON.stringify(list);
-        localStorage.setItem(listID, listString);
-    };
-    static getList(listID){
-        let list = localStorage.getItem(listID);
-        return JSON.parse(list);
-    };
-    static removeList(listID){
-        localStorage.removeItem(listID);
-    };
-}
 
 function setActive(list){
     let cntl = document.getElementById('add1');
@@ -88,16 +82,3 @@ function setActive(list){
     $('.List').css('background-color', '#0015FF');
     $('#'+ list).css('background-color', '#0CA0FF');
 }
-
-/*function displayCurrentList() {
-    document.getElementById('current-list-name').innerHTML = lists.currentList.name;
-}
-    Data.saveList(newList.id, newList);
-
-    function changeList(){
-        lists.currentList = Data.getList(newList.id);
-        console.log(lists.currentList.id)
-    }
-
-    displayCurrentList();
-    console.log(newList.id);*/
